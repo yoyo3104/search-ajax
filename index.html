@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+
+	*{
+		margin: 0;
+		padding: 0;
+	}
+	body{background: #333;}
+	.search-back{background: url(river.jpg);width: 1228px;height: 690px;margin: 0 auto;}
+	.search-logo{background: url(logo.png); width: 107px;height: 53px;float: left; margin-right: 5px; margin-top: -10px;
+	}
+	form{
+		float: left; background: #fff;padding: 5px;
+	}
+	input{border: 0;}
+	.search{position: absolute;top:200px;left: 300px; }
+	.search-text{float: left; height: 25px;line-height: 25px;outline: none; width: 350px;}
+	.search-button{background: url(search-button.png); width:29px;height:29px;float: left;}
+	.search-colum{width: 388px;background: #fff; border: 1px solid #999;}
+	.search-colum ul{list-style: none;}
+	.search-colum ul li{padding: 3px;font-size: 14px;line-height: 25px;}
+	.search-colum ul li:hover{text-decoration: underline;background: #e5e5e5}
+	</style>
+</head>
+<body>
+	<div class="search-back">
+	<div class="search">
+	<div class="search-logo"></div>
+	<form action="https://cn.bing.com/" target="_blank" method="get" id="search-form">
+	<input type="text" class="search-text" name="q" id="search-text">
+	<input type="submit" class="search-button" value=""> 
+
+
+	</form>
+</div>
+
+	</div>
+	<div class="search-colum" id="search-colum" style="display: none;">
+	<ul id="sead">
+	<li>dhsldkj1</li>
+	<li>dhsldkj2</li>
+	<li>dhsldkj3</li>
+
+
+
+	</ul>
+
+
+
+	</div>
+	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script type="text/javascript">
+	   $('#search-text').bind('keyup',function(){
+	   	var searchText=$('#search-text').val();
+
+	   	$.get('http://api.bing.com/qsonhs.aspx?q='+searchText,function(d){
+	   			var d=d.AS.Results[0].Suggests;
+	   			var html='';
+	   			for (var i=0;i<d.length;i++) {
+	   				html+='<li>'+d[i].Txt+'</li>'
+
+	   				
+	   			}
+
+	   			$('#sead').html(html);
+	   			$('#search-colum').show().css({
+	   		top:$('#search-form').offset().top+ $('#search-form').height()+10,
+	   		left:$('#search-form').offset().left,
+	   		position:'absolute',
+	   });
+
+
+	   	},'json');
+	 
+	});
+	   $(document).bind('click',function(){
+	   	$('#search-colum').hide();
+	   });
+	   $(document).delegate('li','click',function(){
+	   	var keyword=$(this).text();
+	   	location.href='http://cn.bing.com/search?q='+keyword;
+	   })
+
+
+
+
+
+	</script>
+</body>
+</html>
